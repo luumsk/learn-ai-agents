@@ -10,7 +10,8 @@ Learning thường diễn ra bằng cách agent chọn hành động, nhận fee
 
 ## 3. Những cặp dễ nhầm lẫn
 
-Adaptation dễ bị nhầm với overfitting, nhưng thực ra hai khái niệm trái ngược: thích nghi là sự linh hoạt có kiểm soát, còn overfitting là bị bó hẹp vào dữ liệu cũ. Generalization cũng khác với adaptation: generalization nghĩa là mô hình đã được huấn luyện để làm tốt trên dữ liệu mới ngay lập tức, còn adaptation là điều chỉnh thêm khi gặp sự khác biệt. Tương tự, fine-tuning thay đổi trực tiếp tham số, trong khi in-context chỉ dùng ngữ cảnh để đổi hành vi. Và cuối cùng, cần phân biệt exploration (khám phá để học thêm) với exploitation (tận dụng cái đã biết để tối đa hóa phần thưởng hiện tại).
+Adaptation dễ bị nhầm với overfitting, nhưng thực ra hai khái niệm trái ngược: thích nghi là sự linh hoạt có kiểm soát, còn overfitting là bị bó hẹp vào dữ liệu cũ. 
+Generalization cũng khác với adaptation: generalization nghĩa là mô hình đã được huấn luyện để làm tốt trên dữ liệu mới ngay lập tức, còn adaptation là điều chỉnh thêm khi gặp sự khác biệt. Tương tự, fine-tuning thay đổi trực tiếp tham số, trong khi in-context chỉ dùng ngữ cảnh để đổi hành vi. Và cuối cùng, cần phân biệt exploration (khám phá để học thêm) với exploitation (tận dụng cái đã biết để tối đa hóa phần thưởng hiện tại).
 
 ## 4. Khi nào nên dùng, khi nào nên tránh?
 
@@ -18,4 +19,20 @@ Learning và adaptation đặc biệt hữu ích khi môi trường biến đổ
 
 ## 5. Tóm tắt
 
-- Có thể hình dung Learning như một vòng lặp: agent quan sát môi trường, chọn hành động dựa trên policy, nhận feedback, rồi cập nhật policy/value/world model trước khi lặp lại. - Adaptation cũng có vòng lặp riêng: khi phát hiện môi trường thay đổi hoặc phân phối dữ liệu bị lệch, agent sẽ tìm ngữ cảnh phù hợp, điều chỉnh hành vi nhanh bằng in-context hoặc test-time adaptation, đảm bảo an toàn qua regularization hay rollback, rồi tiếp tục đánh giá và quyết định giữ hay cập nhật thêm. Hai vòng lặp này bổ sung cho nhau: learning xây nền tảng lâu dài, adaptation giúp agent sống sót và hiệu quả trong tình huống mới.
+**Learning loop**
+
+Có thể hình dung Learning như một vòng lặp: agent quan sát môi trường, chọn hành động dựa trên policy, nhận feedback, rồi cập nhật policy/value/world model trước khi lặp lại. 
+
+```
+Quan sát → Chọn hành động (policy) → Nhận feedback → Cập nhật (policy/value/world model) → Lặp.
+```
+
+**Adaptation Loop**
+
+Khi phát hiện môi trường thay đổi hoặc phân phối dữ liệu bị lệch, agent sẽ tìm ngữ cảnh phù hợp, điều chỉnh hành vi nhanh bằng in-context hoặc test-time adaptation, đảm bảo an toàn qua regularization hay rollback, rồi tiếp tục đánh giá và quyết định giữ hay cập nhật thêm.
+
+```
+Phát hiện lệch phân phối/miền mới → Lấy ngữ cảnh/bộ nhớ phù hợp → Điều chỉnh nhanh (in‑context, test‑time, head nhỏ) → Giữ an toàn (regularize/rollback) → Đánh giá → Cố định hoặc tiếp tục học.
+```
+
+Hai vòng lặp này bổ sung cho nhau: learning xây nền tảng lâu dài, adaptation giúp agent sống sót và hiệu quả trong tình huống mới.
